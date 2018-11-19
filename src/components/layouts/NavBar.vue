@@ -2,11 +2,12 @@
   <div class="navbar">
       <nav class="deep-purple darken 1">
         <div class="container">
-          <a href="" class="brand-logo left">Vuejs Maps</a>
+          <router-link :to="{ name: 'GMap'}"  class="brand-logo left">Vuejs Maps</router-link>
           <ul class="right">
-          <li><router-link :to="{name: 'Signup' }">Signup</router-link></li>
-          <li><router-link :to="{name: 'Login'}">Login</router-link></li>
-          <li><a @click="logout">Logout</a></li>
+          <li v-if="!user"><router-link :to="{name: 'Signup' }">Signup</router-link></li>
+          <li v-if="!user"><router-link :to="{name: 'Login'}">Login</router-link></li>
+          <li v-if="user">{{user.email}}</li>
+          <li v-if="user"><a @click="logout">Logout</a></li>
           </ul>
         </div>
       </nav>
@@ -17,7 +18,9 @@ import firebase from 'firebase'
 export default {
   name:'NavBar',
   data() {
-    return {}
+    return {
+      user: null
+    }
   },
   methods: {
     logout () {
@@ -25,6 +28,15 @@ export default {
         this.$router.push({ name: 'Login' })
       })
     }
+  },
+  created() {
+    let user = firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        this.user = user
+      } else {
+        this.user = null
+      }
+    })
   }
 }
 </script>
