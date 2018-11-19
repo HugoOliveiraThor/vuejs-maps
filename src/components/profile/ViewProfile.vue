@@ -4,7 +4,10 @@ import { cacheBusting } from '../../../build/vue-loader.conf';
     <div v-if="profile" class="card">
       <h2 class="deep-purple-text center">{{ profile.alias }} dados</h2>
       <ul class="comments collection">
-        <li>Comment</li>
+        <li v-for="(comment,idx) in comments" :key="idx">
+          <div class="deep-purple-text">{{ comment.from }}</div>
+          <div class="grey-text text-darken-2">{{ comment.content}}</div>
+        </li>
       </ul>
       <form @submit.prevent="addComment">
         <div class="field">
@@ -27,12 +30,13 @@ export default {
       profile: null,
       newComment: null,
       feedback: null,
-      user: null
-    };
+      user: null,
+      comments: []
+    }
   },
   async created() {
-    const arrayDoc = await db
-      .collection("users")
+    const ref =  db.collection("users")
+    const arrayDoc = await  ref
       .where('user_id', '==', firebase.auth().currentUser.uid)
       .get()
 
@@ -43,10 +47,22 @@ export default {
     console.log('this.user', this.user)
 
 
-    this.profile = (await db
-      .collection("users")
-      .doc(this.$route.params.id)
-      .get()).data()
+    this.profile = (await ref.doc(this.$route.params.id).get()).data()
+
+  // comments
+    db.collection('comments').where('to', '==', this.$route.params.id)
+    .onSnapshot((snapshot) => {
+      snapshot.docChanges.forEach(change => {
+        if(change.type === 'added') {
+          this.comments.unshift({
+            from: change.doc.data().from,
+            content: change.doc.data().content
+          })
+        }
+      })
+    })
+
+
   },
   methods: {
     addComment() {
