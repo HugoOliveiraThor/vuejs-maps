@@ -24,13 +24,35 @@ export default {
   },
   methods: {
     renderMap () {
-      const { Map } = this.google.maps
+      const { Map, Marker } = this.google.maps
       const map = new Map(document.getElementById('map'), {
         center: {lat: this.lat, lng: this.lng},
         zoom:6,
         maxZoom:15,
         minZoom:3,
         streetViewControl: false
+      })
+
+      db.collection('users').get().then(users => {
+        users.docs.forEach(doc => {
+          let data = doc.data()
+          if(data.geolocation) {
+            const  {lat, lng } = data.geolocation
+            let marker = new Marker({
+              position: {
+                lat,
+                lng
+              },
+                map
+            })
+            // add click event to marker
+            marker.addListener('click', () => {
+              this.$router.push({ name: 'Profile', params: {id: doc.id}})
+            })
+            console.log('marker', marker)
+
+          }
+        })
       })
     },
     beginMapsLoader () {
@@ -46,7 +68,6 @@ export default {
     // get current user
 
     let user = firebase.auth().currentUser
-    console.log('User', user)
 
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(pos => {
@@ -67,8 +88,6 @@ export default {
         }).then(() => {
           this.beginMapsLoader()
         })
-
-        this.beginMapsLoader()
       }, (err) => {
         console.log(err)
         this.beginMapsLoader()
