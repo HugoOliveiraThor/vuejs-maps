@@ -1,0 +1,9 @@
+export const configFirebase = {
+  apiKey: "AIzaSyBAOnwgm2RxsasdsadasdsKMCiUKMgHmAwWg9Pv_i0RE",
+    authDomain: "olcoepslj.smokith.com",
+    databaseURL: "https://test.firebase.ui",
+    projectId: "vuejs-try",
+    storageBucket: "mistaken-duty-pen"
+}
+
+export const keyMap = 'AIzaSOLkksdsadpwwreijdasjaYhsdadb'
