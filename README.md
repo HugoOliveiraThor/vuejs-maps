@@ -77,6 +77,39 @@ firebase.auth().signOut().then(() => {})
 firebase.auth().onAuthStateChanged(user => {})
 ```
 
+### How to control what router the user can access with auth in vue router
+```
+const router =  new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'GMap',
+      component: GMap,
+      meta: {
+        requiresAuth: true
+      }
+    }
+  ]
+})
+
+router.beforeEach((to, from, next) => {
+  // check to see if route requires auth
+  if(to.matched.some(rec => rec.meta.requiresAuth)) {
+    // check auth state of user
+    let user = firebase.auth().currentUser
+    if(user) {
+      // user signed in , proceed to route
+      next()
+    } else {
+      // no user signed in, redirect to login
+      next({ name: 'Login' })
+    }
+  } else {
+    next()
+  }
+})
+```
+
 ### View of the map
 ![View of the map](https://github.com/HugoOliveiraThor/vuejs-maps/blob/master/src/assets/readme/maps.png)
 
@@ -87,9 +120,5 @@ firebase.auth().onAuthStateChanged(user => {})
 ![View of the signup](https://github.com/HugoOliveiraThor/vuejs-maps/blob/master/src/assets/readme/signup.png)
 
 
-
 ### Example creating a chat in real time to talk with two diferents user located in map using firebase
 ![](https://github.com/HugoOliveiraThor/vuejs-maps/blob/master/src/assets/readme/chatcrop.gif)
-
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
