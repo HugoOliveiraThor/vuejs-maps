@@ -80,6 +80,13 @@ firebase.auth().onAuthStateChanged(user => {})
 ### View of the map
 ![View of the map](https://github.com/HugoOliveiraThor/vuejs-maps/blob/master/src/assets/readme/maps.png)
 
+### View the login page
+![View of the login](https://github.com/HugoOliveiraThor/vuejs-maps/blob/master/src/assets/readme/login.png)
+
+### View the signup page
+![View of the signup](https://github.com/HugoOliveiraThor/vuejs-maps/blob/master/src/assets/readme/signup.png)
+
+
 
 ### Example creating a chat in real time to talk with two diferents user located in map using firebase
 ![](https://github.com/HugoOliveiraThor/vuejs-maps/blob/master/src/assets/readme/chatcrop.gif)
