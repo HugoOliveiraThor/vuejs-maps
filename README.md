@@ -20,8 +20,11 @@ npm run build --report
 ```
 
 
-## Example creating a chat real time to talk with two diferents user located in map using firebase
+## Example creating a chat to talk with two diferents user located in map
 ![](https://github.com/HugoOliveiraThor/vuejs-maps/blob/master/src/assets/readme/chatcrop.gif)
+##
+
+<img src="https://github.com/HugoOliveiraThor/vuejs-maps/blob/master/src/assets/readme/chatcrop.gif" width="1200" height="720" />
 
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
